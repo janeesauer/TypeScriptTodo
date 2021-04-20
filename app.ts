@@ -1,25 +1,24 @@
-// signatures
-// 
-//overloaded function with alternate signatures that we want to expose
+// interfaces
+// acts as a contract that decribes the data and the behaviours that the object exposes 
+//  for others to interact with
 
-function totalLength(x: string, y:string): number 
-function totalLength(x: any[], y:any[]): number
-function totalLength(x: (string | any[]), y: (string | any[]) ): number { // union types
-  var total: number = x.length + y.length;  
+// interfaces are used as compile time checks only 
+// stripped out at run time
+// defines the data structure of an object
+interface Todo {
+  name: string;
+  completed?: boolean;
+}
 
-  x.slice(0);
+// interfaces can define method signatures - a service with methods that can be called
+interface ITodoService {
+  add(todo: Todo): Todo;              // add  Todo - takes in a Todo and returns a Todo
+  delete(todoID:number): void;        // delete a Todo - takes in an id and returns void
+  getAll(): Todo[];                   // gets all Todo's
+  getById(todoId: number): Todo;      // gets a single Todo by id number
+  
+}
 
-  if ( x instanceof Array ) {   // typeguard syntax
-    x.push('abc');
-  }
-
-  if ( typeof x === 'string' ) {  // syntax reserved for primative types  or   if( x instanceof String ) - String class
-    x.substr(1);
-  }
-  return total;
-};
-
-// when i consume this function it shows the two overload signatures to pass 2 strings or 2 arrays
-totalLength()
-// overloads are removed when converted to javascript 
-// function overloads in typescript can be viewed as metadata to define
+var todo: Todo = {
+  name: 'Pick up drycleaning'
+}
