@@ -1,24 +1,15 @@
-// interfaces
-// acts as a contract that decribes the data and the behaviours that the object exposes 
-//  for others to interact with
+// interface describing a function (a function is an object and can be assigned to a variable)
 
-// interfaces are used as compile time checks only 
-// stripped out at run time
-// defines the data structure of an object
-interface Todo {
-  name: string;
-  completed?: boolean;
+interface jQuery {
+  (selector: string): HTMLElement;   // return a HTML element type - DOM element
+  version: number;      //   function property without a name
 }
 
-// interfaces can define method signatures - a service with methods that can be called
-interface ITodoService {
-  add(todo: Todo): Todo;              // add  Todo - takes in a Todo and returns a Todo
-  delete(todoID:number): void;        // delete a Todo - takes in an id and returns void
-  getAll(): Todo[];                   // gets all Todo's
-  getById(todoId: number): Todo;      // gets a single Todo by id number
-  
-}
+var $ = <jQuery>function(selector) {    // casting syntax - tells typescript that it is jQuery type
+  // find DOM element                   //   overrides typescript type checking behavious, so be careful
+}                                       //
 
-var todo: Todo = {
-  name: 'Pick up drycleaning'
-}
+$.version = 1.12
+
+var element = $('container')
+element.
