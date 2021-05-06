@@ -1,50 +1,36 @@
-// jQuery
+// enums
+// enums can provide context to what could be hardcoded
+/*
+  New = 1
+  Active = 2
+  Complete = 3
+  Deleted = 4
+*/
+enum TodoState {
+  New = 1,
+  Active,
+  Complete,
+  Deleted
+}
 
 interface Todo {
-  name:string;
-  completed?: boolean;
+  name: string;
+  // state: 1;
+  state: TodoState;
+}
+var todo: Todo = {
+  name: "Pick up drycleaning",
+  state: TodoState.New
 }
 
-// jQuery library returns jQueryElements
-// jQuery Element is a javascript object that has helper methods like the data method that allow you to
-// assigning data to a html property or extrace a value from a html property
-interface jQuery {
-  (selector: (string | any)): jQueryElement;   // return a HTML element type - DOM element
-  fn: any;
-  version: number;      //   function property without a name
-}
+// function delete(todo: Todo) {
+//   if(todo.state != 3) {    // the meaning of 3 could change of be lost over time
+//       throw "Can't delete incomplete task!"
+//   }
+// }
 
-interface jQueryElement {
-  data(name: string): any;
-  data(name: string, data: any) :jQueryElement;
-  // don't add your own custome extensions into a third party library that you don't own
-}
-
-// anything in second definition of an interface will be tacked on to the origional interface
-// best practice for interfaces you don't own
-interface jQueryElement {
-  todo(): Todo;
-  todo(todo: Todo) :jQueryElement;
-}
-// for an interface that you own add the methods to the interface you created 
-
-// custom method that assigns an instance of a todo the data of a html element
-$.fn.todo = function(todo? Todo): Todo {
-
-  if(todo) {
-    $(this).data('todo', todo)
-  } else {
-    return $(this).data('todo'); // or assigns previous todo instance
+function deleteTask(todo: Todo) {
+  if(todo.state != TodoState.Complete) {
+      throw "Can't delete incomplete task!"
   }
-
 }
-
-var todo = { name: "Pick up drucleaning" };
-var container =  $(`#container`);  // jQuery function used to get a reference to an element
-// jQuery used to modify data properties
-container.data('todo', todo)  // data method used to assign todo object to the DOM elements data property
-//   nemed todo   
-var savedTodo = container.data('todo');  // overload of data method used to extract the value just set
-//   by calling it with the name of the data property i want to retrieve
-
-container.todo(todo);
