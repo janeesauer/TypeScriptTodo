@@ -1,36 +1,26 @@
-// enums
-// enums can provide context to what could be hardcoded
-/*
-  New = 1
-  Active = 2
-  Complete = 3
-  Deleted = 4
-*/
-enum TodoState {
-  New = 1,
-  Active,
-  Complete,
-  Deleted
-}
+// anonymous types
+// You don't need to define an interface with one type.
+// You can define it in line - this is an anonymouse type
+// eg.
+var todo: { name: string };
+// it will then error when you try to assign an object that doesn't have the name property
+todo = { age: 41 };
 
-interface Todo {
-  name: string;
-  // state: 1;
-  state: TodoState;
+//in this example the union type allows only strings or arrays can be passed in.
+function totalLength(x: (string | any[]), y: (string | any[])): number {
+  var total: number = x.length + y.length;
+  return total;
 }
-var todo: Todo = {
-  name: "Pick up drycleaning",
-  state: TodoState.New
+// if only the length is requires the typs don't need to be restricted to array and length types
+// any object with a length property as long as it is a number will 
+// replacing the union types with anonymouse types will achieve this
+// length is a property
+function totalLength2(x: { length: number }, y: { length: number }): number {
+  var total: number = x.length + y.length;
+  return total;
 }
+// this results is cleaner, easier to understand code.
 
-// function delete(todo: Todo) {
-//   if(todo.state != 3) {    // the meaning of 3 could change of be lost over time
-//       throw "Can't delete incomplete task!"
-//   }
-// }
-
-function deleteTask(todo: Todo) {
-  if(todo.state != TodoState.Complete) {
-      throw "Can't delete incomplete task!"
-  }
-}
+// however nothing forcing consumers of this method from passing in 
+// values of the exact same type, so they can add the length of an array to the length of a string
+// this will be handled by using a generic type.
